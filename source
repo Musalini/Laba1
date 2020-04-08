@@ -1,0 +1,59 @@
+#include<iostream>
+
+#include<cmath>
+
+using namespace std;
+
+int main ()
+
+{
+
+setlocale(LC_ALL,"russian");
+
+float w=740,v=850,u=130;
+
+// w-путевая скорость, v-воздушная скорость, u-скорость ветра
+
+float t=0.87;
+
+// t-время полёта
+
+float dww=0.008,dvv=0.016,duw=0.048;
+
+// dww/dvv/duw-относительная ошибка измерения путевой/воздушной скоростей и скорости ветра
+
+float sigma_snos=1, sigma_kurs=2.9,sigma_ugol=0.65,sigma_napr=9;
+
+// угол сноса,курс полёта,угол карты, направление ветра
+
+float m_avt=sqrt(pow(dvv,2)*pow((v/w),2)+pow((v/w),2)*pow(sigma_kurs,2)+pow((u/w),2)*pow(sigma_napr,2)+pow(sigma_ugol,2)+pow(duw,2));
+
+float sigma_avt=w*t*m_avt;
+
+float sigma_up=w*sqrt(pow(dww,2)+pow(sigma_snos,2)+pow(dvv,2)*pow((v/w),2));
+
+float m_pamyat=sqrt(pow(dvv,2)*pow((v/w),2)+pow((v/w),2)*pow(sigma_kurs,2)+pow(sigma_ugol,2)+pow((sigma_up/w),2));
+
+float sigma_pamyat=w*t*m_pamyat;
+
+float m_diss=sqrt(pow(dww,2)+pow(sigma_snos,2)+pow(sigma_kurs,2)+pow(sigma_ugol,2));
+
+float sigma_diss=w*t*m_diss;
+
+cout<<"m_avt ="<<m_avt<<endl;
+
+cout<<"СКРП в автономном режиме ="<<sigma_avt<<endl;
+
+cout<<"СКП ветра σ UП ="<<sigma_up<<endl;
+
+cout<<"m_pamyat ="<<m_pamyat<<endl;
+
+cout<<"СКРП в режиме “Память ветра" "="<<sigma_pamyat<<endl;
+
+cout<<"m_diss ="<<m_diss<<endl;
+
+cout<<"СКРП в режиме “ДИСС" "="<<sigma_diss<<endl;
+
+system("pause>nul");
+
+}
